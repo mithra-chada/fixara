@@ -80,9 +80,10 @@ export default function HowItWorks() {
         <div className="w-full max-w-[1440px] px-6 flex flex-col items-center">
           
           <div className="w-full max-w-3xl mb-12 text-left sm:text-center sm:self-center">
-            <FadeText className="text-[40px] font-display font-semibold text-ink leading-[1.10] tracking-normal">
-              Questions we get asked.
-            </FadeText>
+            <FadeText 
+              text="Questions we get asked."
+              className="text-[40px] font-display font-semibold text-ink leading-[1.10] tracking-normal" 
+            />
           </div>
 
           {/* Minimal Accordion List */}

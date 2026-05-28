@@ -14,7 +14,7 @@ import FadeText from "@/components/ui/FadeText";
 import NumberTicker from "@/components/ui/NumberTicker";
 import WordPullUp from "@/components/ui/WordPullUp";
 
-import { CategoriesCarousel } from "@/components/sections/CategoriesCarousel";
+import CategoriesCarousel from "@/components/sections/CategoriesCarousel";
 import { HowItWorksCarousel } from "@/components/sections/HowItWorksCarousel";
 
 type WaitlistInput = {
@@ -169,7 +169,7 @@ export default function Home() {
                   {/* Row 1 */}
                   <div className="flex items-center justify-between py-4 border-b border-black/[0.05] max-[833px]:border-0">
                     <span className="text-[32px] font-display font-semibold text-ink leading-none">
-                      <NumberTicker value={500} suffix="+" />
+                      <NumberTicker target={500} suffix="+" />
                     </span>
                     <span className="text-[14px] font-body font-normal text-ink-48 ml-4 text-right">
                       Verified Technicians
@@ -179,7 +179,7 @@ export default function Home() {
                   {/* Row 2 */}
                   <div className="flex items-center justify-between py-4 border-b border-black/[0.05] max-[833px]:border-0">
                     <span className="text-[32px] font-display font-semibold text-ink leading-none">
-                      <NumberTicker value={15} suffix="+" />
+                      <NumberTicker target={15} suffix="+" />
                     </span>
                     <span className="text-[14px] font-body font-normal text-ink-48 ml-4 text-right">
                       Machine Categories
@@ -189,7 +189,7 @@ export default function Home() {
                   {/* Row 3 */}
                   <div className="flex items-center justify-between py-4 border-b border-black/[0.05] max-[833px]:border-0">
                     <span className="text-[32px] font-display font-semibold text-ink leading-none">
-                      <NumberTicker value={4} prefix="< " suffix=" hrs" />
+                      <NumberTicker target={4} prefix="< " suffix=" hrs" />
                     </span>
                     <span className="text-[14px] font-body font-normal text-ink-48 ml-4 text-right">
                       Average Dispatch
@@ -199,7 +199,7 @@ export default function Home() {
                   {/* Row 4 */}
                   <div className="flex items-center justify-between py-4 border-b border-black/[0.05] last:border-0 max-[833px]:border-0">
                     <span className="text-[32px] font-display font-semibold text-ink leading-none">
-                      <NumberTicker value={100} suffix="%" />
+                      <NumberTicker target={100} suffix="%" />
                     </span>
                     <span className="text-[14px] font-body font-normal text-ink-48 ml-4 text-right">
                       Background Verified
@@ -287,7 +287,7 @@ export default function Home() {
             {/* Stat 1 */}
             <div className="flex flex-col items-center text-center md:border-r border-hairline last:border-0 px-4">
               <span className="text-[40px] font-display font-semibold text-ink leading-tight">
-                <NumberTicker value={500} suffix="+" />
+                <NumberTicker target={500} suffix="+" />
               </span>
               <span className="text-[14px] font-body font-normal text-ink-48 mt-1">
                 Verified Technicians
@@ -297,7 +297,7 @@ export default function Home() {
             {/* Stat 2 */}
             <div className="flex flex-col items-center text-center md:border-r border-hairline last:border-0 px-4">
               <span className="text-[40px] font-display font-semibold text-ink leading-tight">
-                <NumberTicker value={15} suffix="+" />
+                <NumberTicker target={15} suffix="+" />
               </span>
               <span className="text-[14px] font-body font-normal text-ink-48 mt-1">
                 Machine Categories
@@ -307,7 +307,7 @@ export default function Home() {
             {/* Stat 3 */}
             <div className="flex flex-col items-center text-center md:border-r border-hairline last:border-0 px-4">
               <span className="text-[40px] font-display font-semibold text-ink leading-tight">
-                <NumberTicker value={4} prefix="< " suffix=" hrs" />
+                <NumberTicker target={4} prefix="< " suffix=" hrs" />
               </span>
               <span className="text-[14px] font-body font-normal text-ink-48 mt-1">
                 Average Dispatch Time
@@ -317,7 +317,7 @@ export default function Home() {
             {/* Stat 4 */}
             <div className="flex flex-col items-center text-center px-4">
               <span className="text-[40px] font-display font-semibold text-ink leading-tight">
-                <NumberTicker value={100} suffix="%" />
+                <NumberTicker target={100} suffix="%" />
               </span>
               <span className="text-[14px] font-body font-normal text-ink-48 mt-1">
                 Background Verified
@@ -342,9 +342,10 @@ export default function Home() {
         <div className="w-full max-w-[1440px] px-6">
           
           <div className="mb-12">
-            <FadeText className="text-[40px] font-display font-semibold text-ink leading-[1.10] tracking-normal">
-              Built for the shop floor.
-            </FadeText>
+            <FadeText 
+              text="Built for the shop floor."
+              className="text-[40px] font-display font-semibold text-ink leading-[1.10] tracking-normal" 
+            />
           </div>
 
           {/* 3-Column Trust Cards - Inline styled card-glass */}
@@ -459,7 +460,7 @@ export default function Home() {
           </span>
 
           <h2 className="text-[40px] font-display font-semibold text-ink leading-[1.10] tracking-normal mb-6">
-            <FadeText>Turn your skills into steady work.</FadeText>
+            <FadeText text="Turn your skills into steady work." />
           </h2>
 
           <div className="text-[17px] md:text-[28px] font-body font-normal leading-[1.14] text-ink max-w-3xl mb-8">

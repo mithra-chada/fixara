@@ -1,23 +1,27 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import React from "react";
+import { useFadeText } from '@/hooks/useFadeText';
 
 interface FadeTextProps {
-  children: React.ReactNode;
+  text: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function FadeText({ children, className = "" }: FadeTextProps) {
+export default function FadeText({ text, className = '', style }: FadeTextProps) {
+  const { ref, visible } = useFadeText(0.2);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={className}
+    <span
+      ref={ref}
+      className={`inline-block transition-all duration-700 ${className}`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(12px)',
+        ...style,
+      }}
     >
-      {children}
-    </motion.div>
+      {text}
+    </span>
   );
 }

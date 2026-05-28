@@ -1,53 +1,33 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
+import { useWordPullUp } from '@/hooks/useWordPullUp';
 
 interface WordPullUpProps {
   text: string;
+  delay?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function WordPullUp({ text, className = "" }: WordPullUpProps) {
-  const words = text.split(" ");
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const childVariants = {
-    hidden: { y: 15, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut" as const,
-      },
-    },
-  };
+export default function WordPullUp({ text, delay = 0, className = '', style }: WordPullUpProps) {
+  const { visible } = useWordPullUp(delay);
+  const words = text.split(' ');
 
   return (
-    <motion.span
-      className={`inline-block ${className}`}
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-    >
-      {words.map((word, idx) => (
-        <motion.span
-          key={idx}
-          className="inline-block mr-[0.25em] last:mr-0"
-          variants={childVariants}
+    <span className={`inline-flex flex-wrap ${className}`} style={style}>
+      {words.map((word, i) => (
+        <span
+          key={i}
+          className="inline-block mr-[0.25em] transition-all duration-500"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: `${delay + i * 60}ms`,
+          }}
         >
           {word}
-        </motion.span>
+        </span>
       ))}
-    </motion.span>
+    </span>
   );
 }

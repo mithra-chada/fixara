@@ -1,49 +1,29 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "framer-motion";
+import { useNumberTicker } from '@/hooks/useNumberTicker';
 
 interface NumberTickerProps {
-  value: number;
-  className?: string;
+  target: number;
   prefix?: string;
   suffix?: string;
+  duration?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function NumberTicker({
-  value,
-  className = "",
-  prefix = "",
-  suffix = "",
+  target,
+  prefix = '',
+  suffix = '',
+  duration = 1500,
+  className = '',
+  style,
 }: NumberTickerProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, {
-    damping: 40,
-    stiffness: 100,
-  });
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  useEffect(() => {
-    if (isInView) {
-      motionValue.set(value);
-    }
-  }, [isInView, value, motionValue]);
-
-  useEffect(() => {
-    return springValue.on("change", (latest) => {
-      if (ref.current) {
-        ref.current.textContent = `${prefix}${Math.round(latest).toLocaleString()}${suffix}`;
-      }
-    });
-  }, [springValue, prefix, suffix]);
+  const { ref, count } = useNumberTicker(target, duration);
 
   return (
-    <span
-      ref={ref}
-      className={`inline-block tabular-nums ${className}`}
-    >
-      {prefix}0{suffix}
+    <span ref={ref} className={className} style={style}>
+      {prefix}{count}{suffix}
     </span>
   );
 }

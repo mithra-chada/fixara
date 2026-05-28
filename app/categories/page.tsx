@@ -4,7 +4,7 @@ import Link from "next/link";
 import SubNav from "@/components/ui/SubNav";
 import BlurIn from "@/components/ui/BlurIn";
 import FadeText from "@/components/ui/FadeText";
-import { CategoriesCarousel } from "@/components/sections/CategoriesCarousel";
+import CategoriesCarousel from "@/components/sections/CategoriesCarousel";
 
 export default function Categories() {
   return (
@@ -30,9 +30,10 @@ export default function Categories() {
       <section className="w-full bg-[#1C1C1E] text-canvas py-20 flex justify-center">
         <div className="w-full max-w-[1440px] px-6 text-center flex flex-col items-center">
           
-          <FadeText className="text-[40px] font-display font-semibold text-canvas leading-[1.10] tracking-normal mb-4">
-            Don&apos;t see your machine type?
-          </FadeText>
+          <FadeText 
+            className="text-[40px] font-display font-semibold text-canvas leading-[1.10] tracking-normal mb-4"
+            text="Don't see your machine type?"
+          />
           
           <p className="text-[17px] md:text-[28px] font-body font-normal leading-[1.14] text-muted-body max-w-2xl mb-8">
             We&apos;re expanding categories based on demand. Tell us what you need and we&apos;ll prioritise it.

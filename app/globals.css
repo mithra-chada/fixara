@@ -3,112 +3,72 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply text-ink font-body antialiased;
-    font-size: 17px;
-    line-height: 1.47;
-    letter-spacing: -0.374px;
+  :root {
+    --background: 0 0% 98.4%;
+    --foreground: 0 0% 11.4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11.4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11.4%;
+    --primary: 210 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 11.4%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 48%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 11.4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 87.8%;
+    --input: 0 0% 87.8%;
+    --ring: 210 100% 40%;
+    --radius: 0.125rem;
+  }
+
+  html {
+    font-family: 'Inter', 'SF Pro Text', system-ui, sans-serif;
     background-color: #FBFBFD;
+    color: #1D1D1F;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
-  /* Focus Ring rule from design system */
-  input:focus, select:focus, textarea:focus, button:focus {
-    outline: 2px solid #0071E3 !important;
-    outline-offset: 2px;
+  body {
+    font-family: 'Inter', 'SF Pro Text', system-ui, sans-serif;
+    background-color: #FBFBFD;
+    color: #1D1D1F;
+    overflow-wrap: break-word;
   }
 
-  /* Prevent outline on non-keyboard focus when using focus-visible */
-  input:focus:not(:focus-visible), select:focus:not(:focus-visible), textarea:focus:not(:focus-visible), button:focus:not(:focus-visible) {
-    outline: none !important;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
 @layer utilities {
-  /* Button active scale transition rules */
-  .btn-active-scale {
-    @apply transition-transform duration-100 ease-out active:scale-95;
-  }
-
-  /* FIX 2 — HERO SECTION BACKGROUND WRAPPER */
-  .hero-section {
-    background-color: #F5F5F7;
-    background-image:
-      radial-gradient(ellipse 55% 70% at 8% 50%, rgba(0,102,204,0.09) 0%, transparent 65%),
-      radial-gradient(ellipse 45% 55% at 88% 45%, rgba(210,210,215,0.35) 0%, transparent 60%);
-    min-height: 100vh;
-    position: relative;
-  }
-
-  /* FIX 3 — HERO GLASS PANEL (RIGHT COLUMN) */
-  .hero-glass-panel {
+  /* Apple frosted glass — light surface */
+  .glass-light {
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
     -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: 24px;
-    padding: 40px;
-    position: relative;
-
-    /* Layered shadow for visible depth */
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 18px;
     box-shadow:
       0 2px 4px rgba(0,0,0,0.04),
       0 8px 24px rgba(0,0,0,0.08),
-      0 24px 48px rgba(0,0,0,0.06),
-      inset 0 1px 0 rgba(255,255,255,0.95),
-      inset 0 -1px 0 rgba(0,0,0,0.04);
-  }
-
-  /* Pseudo-element top shimmer */
-  .hero-glass-panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(255,255,255,0.9) 30%,
-      rgba(255,255,255,0.9) 70%,
-      transparent 100%
-    );
-    border-radius: 24px 24px 0 0;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  /* FIX 4 — HERO SECOND CARD (3-STEP SUMMARY) */
-  .hero-steps-card {
-    background: rgba(255, 255, 255, 0.40);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.60);
-    border-radius: 18px;
-    padding: 24px;
-    margin-top: 16px;
-
-    box-shadow:
-      0 2px 8px rgba(0,0,0,0.06),
-      0 8px 24px rgba(0,0,0,0.05),
-      inset 0 1px 0 rgba(255,255,255,0.90);
-  }
-
-  /* FIX 5 — GLOBAL GLASS UTILITY CLASSES (FULL RESPEC) */
-  
-  /* Glass — Light (on light/parchment backgrounds) */
-  .glass-light {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
-    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
-    border: 1px solid rgba(255, 255, 255, 0.70);
-    border-radius: 18px;
-    box-shadow:
-      0 2px 4px rgba(0,0,0,0.04),
-      0 8px 24px rgba(0,0,0,0.07),
-      0 20px 40px rgba(0,0,0,0.04),
-      inset 0 1px 0 rgba(255,255,255,0.95),
+      0 24px 48px rgba(0,0,0,0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
       inset 0 -1px 0 rgba(0,0,0,0.03);
   }
 
-  /* Glass — Dark (on #272729 or #1C1C1E dark tiles) */
+  /* Apple frosted glass — dark tile */
   .glass-dark {
     background: rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(28px) saturate(180%);
@@ -117,33 +77,30 @@
     border-radius: 18px;
     box-shadow:
       0 4px 16px rgba(0,0,0,0.30),
-      0 16px 40px rgba(0,0,0,0.25),
-      inset 0 1px 0 rgba(255,255,255,0.10),
-      inset 0 -1px 0 rgba(0,0,0,0.20);
+      0 16px 40px rgba(0,0,0,0.20),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.15);
   }
 
-  /* Glass — Blue tint chip */
+  /* Blue tint chip */
   .glass-blue {
     background: rgba(0, 102, 204, 0.10);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid rgba(0, 102, 204, 0.28);
     border-radius: 9999px;
-    box-shadow:
-      0 1px 4px rgba(0,102,204,0.10),
-      inset 0 1px 0 rgba(255,255,255,0.30);
+    box-shadow: 0 1px 4px rgba(0,102,204,0.10), inset 0 1px 0 rgba(255,255,255,0.30);
   }
 
-  /* Glass — Sub-nav frosted bar */
+  /* Frosted sub-nav bar */
   .glass-subnav {
     background: rgba(245, 245, 247, 0.82);
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
     border-bottom: 1px solid rgba(0,0,0,0.09);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.50);
   }
 
-  /* Glass — Form container */
+  /* Glass form container */
   .glass-form {
     background: rgba(255, 255, 255, 0.60);
     backdrop-filter: blur(32px) saturate(200%);
@@ -156,7 +113,7 @@
       inset 0 1px 0 rgba(255,255,255,0.95);
   }
 
-  /* Glass — Input fields */
+  /* Glass input fields */
   .glass-input {
     background: rgba(242, 242, 247, 0.85);
     backdrop-filter: blur(8px);
@@ -166,6 +123,10 @@
     height: 48px;
     padding: 0 20px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    font-size: 15px;
+    color: #1D1D1F;
+    outline: none;
   }
 
   .glass-input:focus {
@@ -174,29 +135,17 @@
     outline: none;
   }
 
-  /* FIX 7 — BENEFITS & TRUST CARDS GLASS DEPTH */
-  .card-glass {
-    background: rgba(255, 255, 255, 0.68);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 18px;
-    padding: 32px;
-    box-shadow:
-      0 1px 2px rgba(0,0,0,0.04),
-      0 4px 16px rgba(0,0,0,0.06),
-      0 12px 32px rgba(0,0,0,0.04),
-      inset 0 1px 0 rgba(255,255,255,0.95),
-      inset 0 -1px 0 rgba(0,0,0,0.03);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  .glass-input::placeholder {
+    color: #7A7A7A;
   }
 
-  .card-glass:hover {
-    box-shadow:
-      0 2px 4px rgba(0,0,0,0.06),
-      0 8px 24px rgba(0,0,0,0.09),
-      0 20px 48px rgba(0,0,0,0.06),
-      inset 0 1px 0 rgba(255,255,255,0.95);
-    transform: translateY(-2px);
+  /* Video overlay for hero */
+  .video-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(0,0,0,0.65) 0%,
+      rgba(0,0,0,0.40) 50%,
+      rgba(0,0,0,0.55) 100%
+    );
   }
 }

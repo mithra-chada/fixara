@@ -1,286 +1,299 @@
-"use client";
-import React from "react";
-import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
+import { useState, useRef } from 'react';
+import { categoriesData } from '@/lib/tokens';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
-const CategoryDetail = ({ category, skills, description }: {
-  category: string;
-  skills: string[];
-  description: string;
-}) => {
+interface CategoriesCarouselProps {
+  showHeader?: boolean;
+}
+
+export default function CategoriesCarousel({ showHeader = true }: CategoriesCarouselProps) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (dir: 'left' | 'right') => {
+    if (!scrollRef.current) return;
+    const amount = 400;
+    scrollRef.current.scrollBy({
+      left: dir === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className="bg-[#F5F5F7] p-8 md:p-14 rounded-3xl mb-4">
-      <p className="text-neutral-500 text-base md:text-lg font-sans max-w-3xl mx-auto mb-6">
-        {description}
-      </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
-        {skills.map((skill) => (
-          <div
-            key={skill}
-            className="bg-white rounded-xl px-4 py-3 text-sm font-medium
-                       text-[#1D1D1F] border border-[#E0E0E0]"
-          >
-            {skill}
+    <section className="relative overflow-hidden" style={{ background: '#F5F5F7', padding: '80px 0' }}>
+      {/* Light section blobs */}
+      <div className="absolute pointer-events-none" style={{
+        top: '-10%', left: '-5%', width: '45%', height: '55%',
+        background: 'radial-gradient(ellipse, rgba(0,102,204,0.10) 0%, transparent 70%)',
+        filter: 'blur(40px)', borderRadius: '50%', zIndex: 0,
+      }} />
+      <div className="absolute pointer-events-none" style={{
+        bottom: '-5%', right: '-5%', width: '40%', height: '50%',
+        background: 'radial-gradient(ellipse, rgba(0,102,204,0.07) 0%, transparent 65%)',
+        filter: 'blur(35px)', borderRadius: '50%', zIndex: 0,
+      }} />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {showHeader && (
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+            <div>
+              <div
+                className="inline-flex items-center gap-2 mb-4"
+                style={{
+                  background: 'rgba(0, 102, 204, 0.10)',
+                  backdropFilter: 'blur(16px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                  border: '1px solid rgba(0, 102, 204, 0.28)',
+                  borderRadius: 9999,
+                  padding: '6px 14px',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: '#0066CC',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  fontFamily: 'Inter, SF Pro Text, system-ui, sans-serif',
+                }}
+              >
+                Every machine. Every trade.
+              </div>
+              <h2
+                style={{
+                  fontSize: 'clamp(28px, 3.5vw, 40px)',
+                  fontWeight: 600,
+                  lineHeight: 1.10,
+                  color: '#1D1D1F',
+                  fontFamily: 'Inter, SF Pro Display, system-ui, sans-serif',
+                  marginBottom: 8,
+                }}
+              >
+                15+ categories. One platform.
+              </h2>
+              <p
+                style={{
+                  fontSize: 17,
+                  fontWeight: 400,
+                  lineHeight: 1.47,
+                  color: '#7A7A7A',
+                  fontFamily: 'Inter, SF Pro Text, system-ui, sans-serif',
+                }}
+              >
+                From CNC to compressors, we cover the full floor.
+              </p>
+            </div>
+
+            {/* Arrows */}
+            <div className="flex gap-3 mt-6 md:mt-0">
+              <button
+                onClick={() => scroll('left')}
+                className="flex items-center justify-center transition-colors duration-200"
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.55)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(0,0,0,0.09)',
+                }}
+                aria-label="Scroll left"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.80)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.55)';
+                }}
+              >
+                <ChevronLeft size={20} color="#1D1D1F" strokeWidth={1.5} />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="flex items-center justify-center transition-colors duration-200"
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.55)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(0,0,0,0.09)',
+                }}
+                aria-label="Scroll right"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.80)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.55)';
+                }}
+              >
+                <ChevronRight size={20} color="#1D1D1F" strokeWidth={1.5} />
+              </button>
+            </div>
           </div>
-        ))}
+        )}
+
+        {/* Horizontal scrollable cards */}
+        <div
+          ref={scrollRef}
+          className="flex gap-5 overflow-x-auto pb-4"
+          style={{
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          {categoriesData.map((cat, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 group cursor-pointer"
+              style={{
+                width: 'clamp(280px, 30vw, 340px)',
+                scrollSnapAlign: 'start',
+              }}
+              onClick={() => setExpandedIndex(i)}
+            >
+              {/* Image card */}
+              <div
+                className="relative overflow-hidden animate-in fade-in duration-300"
+                style={{
+                  borderRadius: 18,
+                  aspectRatio: '4/3',
+                  boxShadow: 'rgba(0,0,0,0.22) 3px 5px 30px 0px',
+                }}
+              >
+                <img
+                  src={cat.src}
+                  alt={cat.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)',
+                  }}
+                />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: 'rgba(255,255,255,0.70)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.8px',
+                      fontFamily: 'Inter, SF Pro Text, system-ui, sans-serif',
+                    }}
+                  >
+                    {cat.category}
+                  </span>
+                  <h3
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      color: '#FFFFFF',
+                      fontFamily: 'Inter, SF Pro Display, system-ui, sans-serif',
+                      marginTop: 4,
+                    }}
+                  >
+                    {cat.title}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
 
-const categoriesData = [
-  {
-    category: "Precision Engineering",
-    title: "CNC & Precision Machines",
-    src: "https://images.unsplash.com/photo-1565793979728-5571e4b6b3a8?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="CNC & Precision Machines"
-        description="Expert technicians for CNC machining centres, lathes, and milling machines. We handle both electrical faults and mechanical breakdowns."
-        skills={[
-          "CNC Lathe Repair",
-          "VMC Maintenance",
-          "HMC Servicing",
-          "Spindle Repair",
-          "Ball Screw Replacement",
-          "Controller Faults",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Electrical",
-    title: "Electrical & Wiring",
-    src: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Electrical & Wiring"
-        description="From motor rewinds to PLC faults, our verified electricians handle every industrial electrical requirement on the shop floor."
-        skills={[
-          "Motor Rewinding",
-          "Panel Wiring",
-          "PLC Programming",
-          "VFD Faults",
-          "Transformer Repair",
-          "Industrial Lighting",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Hydraulics",
-    title: "Hydraulics & Pneumatics",
-    src: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Hydraulics & Pneumatics"
-        description="Cylinder leaks, valve failures, compressor faults — our hydraulic and pneumatic specialists restore pressure and flow fast."
-        skills={[
-          "Cylinder Repair",
-          "Valve Replacement",
-          "Compressor Service",
-          "Hydraulic Pump",
-          "Pressure Testing",
-          "Pneumatic Lines",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Fabrication",
-    title: "Welding & Fabrication",
-    src: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Welding & Fabrication"
-        description="Certified welders for MIG, TIG, arc, and structural fabrication work. Available for both emergency repairs and planned fabrication jobs."
-        skills={[
-          "MIG Welding",
-          "TIG Welding",
-          "Arc Welding",
-          "Structural Fabrication",
-          "Sheet Metal Work",
-          "Gas Cutting",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Material Handling",
-    title: "Conveyors & Hoists",
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Material Handling"
-        description="Conveyor belt repairs, hoist servicing, and forklift maintenance to keep your material flow uninterrupted."
-        skills={[
-          "Belt Conveyor Repair",
-          "Chain Conveyor",
-          "EOT Crane Service",
-          "Forklift Repair",
-          "Hoist Maintenance",
-          "Pallet Racking",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Food Processing",
-    title: "Food Processing Equipment",
-    src: "https://images.unsplash.com/photo-1565891741441-64926e441838?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Food Processing Equipment"
-        description="Hygiene-certified technicians for mixers, fillers, packaging lines, and cold storage equipment in food manufacturing units."
-        skills={[
-          "Mixer Repair",
-          "Filling Machines",
-          "Packaging Lines",
-          "Cold Storage",
-          "Conveyor Belts",
-          "Sealing Machines",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "Textile",
-    title: "Textile Machinery",
-    src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Textile Machinery"
-        description="Specialists in loom repair, knitting frame servicing, winding machines, and textile plant maintenance across all fabric types."
-        skills={[
-          "Loom Repair",
-          "Knitting Frames",
-          "Winding Machines",
-          "Warping Machines",
-          "Dyeing Equipment",
-          "Stenter Repair",
-        ]}
-      />
-    ),
-  },
-  {
-    category: "General",
-    title: "General Maintenance",
-    src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="General Maintenance"
-        description="Plumbing, civil repairs, carpentry, and general upkeep for the non-machine areas of your manufacturing facility."
-        skills={[
-          "Industrial Plumbing",
-          "Civil Repairs",
-          "Carpentry",
-          "Painting",
-          "False Ceiling",
-          "General Upkeep",
-        ]}
-      />
-    ),
-  },
-  // UPGRADE 3 — ADDED 7 CATEGORIES (TOTAL 15)
-  {
-    category: "Compressors",
-    title: "Air Compressors & Pumps",
-    src: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Air Compressors & Pumps"
-        description="Servicing and repair of screw compressors, reciprocating compressors, vacuum pumps, and industrial blowers."
-        skills={["Screw Compressor", "Reciprocating Pump", "Vacuum Pump", "Air Dryer", "Pressure Valve", "Blower Repair"]}
-      />
-    ),
-  },
-  {
-    category: "Refrigeration",
-    title: "Industrial Refrigeration",
-    src: "https://images.unsplash.com/photo-1581092160562-40aa08e9e2d3?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Industrial Refrigeration"
-        description="Cold room maintenance, chiller servicing, and industrial HVAC repair for manufacturing and food processing plants."
-        skills={["Cold Room Repair", "Chiller Service", "HVAC Maintenance", "Refrigerant Refill", "Condenser Cleaning", "Thermostat Faults"]}
-      />
-    ),
-  },
-  {
-    category: "Instrumentation",
-    title: "Instrumentation & Control",
-    src: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Instrumentation & Control"
-        description="Calibration, installation, and repair of industrial sensors, flow meters, pressure gauges, and SCADA systems."
-        skills={["Sensor Calibration", "Flow Meter Repair", "Pressure Gauges", "SCADA Faults", "DCS Systems", "HMI Repair"]}
-      />
-    ),
-  },
-  {
-    category: "Pumps & Piping",
-    title: "Pumps & Industrial Piping",
-    src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Pumps & Industrial Piping"
-        description="Centrifugal pump repairs, pipe laying, valve replacement, and industrial plumbing across all manufacturing environments."
-        skills={["Centrifugal Pumps", "Submersible Pumps", "Pipe Fitting", "Valve Replacement", "Pipeline Testing", "Water Treatment"]}
-      />
-    ),
-  },
-  {
-    category: "Generators",
-    title: "Generators & DG Sets",
-    src: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Generators & DG Sets"
-        description="Diesel generator servicing, AMF panel repair, and power backup maintenance for uninterrupted manufacturing operations."
-        skills={["DG Set Service", "AMF Panel", "AVR Repair", "Alternator Winding", "Fuel System", "Load Testing"]}
-      />
-    ),
-  },
-  {
-    category: "Robotics & Automation",
-    title: "Robotics & Automation",
-    src: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Robotics & Automation"
-        description="Maintenance and fault diagnosis for industrial robots, conveyor automation, servo drives, and automated assembly systems."
-        skills={["Robot Programming", "Servo Drive Repair", "Conveyor Automation", "Vision Systems", "End Effector Repair", "Safety Systems"]}
-      />
-    ),
-  },
-  {
-    category: "Safety Systems",
-    title: "Fire & Safety Systems",
-    src: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2000&auto=format&fit=crop",
-    content: (
-      <CategoryDetail
-        category="Fire & Safety Systems"
-        description="Installation and AMC of fire detection, suppression, emergency lighting, and industrial safety systems for compliance and protection."
-        skills={["Fire Detection", "Sprinkler Systems", "Emergency Lighting", "Gas Detection", "Safety Audits", "Fire Suppression"]}
-      />
-    ),
-  },
-];
+      {/* Modal Detail Overlay */}
+      {expandedIndex !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6" role="dialog" aria-modal="true">
+          {/* Backdrop overlay */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
+            onClick={() => setExpandedIndex(null)}
+          />
 
-export function CategoriesCarousel() {
-  const cards = categoriesData.map((card, index) => (
-    <Card key={card.src} card={card} index={index} />
-  ));
+          {/* Modal Container */}
+          <div
+            className="bg-white w-full max-w-2xl rounded-[32px] overflow-hidden shadow-2xl relative z-10 flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-300"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setExpandedIndex(null)}
+              className="absolute top-4 right-4 z-20 flex items-center justify-center w-8 h-8 rounded-full bg-black text-white hover:bg-black/80 transition-colors focus:outline-hidden cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X size={16} strokeWidth={2.5} />
+            </button>
 
-  return (
-    <div className="w-full py-20 bg-[#F5F5F7]">
-      <Carousel 
-        items={cards}
-        eyebrow="Every machine. Every trade."
-        title={<span>15+ categories.<br />One platform.</span>}
-        subtext="From CNC to compressors, we cover the full floor. Tap any category to see the skills we dispatch."
-        darkTheme={false}
-      />
-    </div>
+            {/* Header Image Area */}
+            <div className="relative h-48 md:h-64 flex-shrink-0">
+              <img
+                src={categoriesData[expandedIndex].src}
+                alt={categoriesData[expandedIndex].title}
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Fade to white gradient from bottom of image */}
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent"
+                style={{
+                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0) 50%, #FFFFFF 100%)',
+                }}
+              />
+
+              {/* Text overlaid on the bottom portion of image (against white fade) */}
+              <div className="absolute bottom-0 left-8 right-8 pb-3">
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#7A7A7A',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    fontFamily: 'Inter, SF Pro Text, system-ui, sans-serif',
+                  }}
+                >
+                  {categoriesData[expandedIndex].category}
+                </span>
+                <h3
+                  style={{
+                    fontSize: 'clamp(22px, 3vw, 28px)',
+                    fontWeight: 700,
+                    color: '#1D1D1F',
+                    fontFamily: 'Inter, SF Pro Display, system-ui, sans-serif',
+                    marginTop: 2,
+                  }}
+                >
+                  {categoriesData[expandedIndex].title}
+                </h3>
+              </div>
+            </div>
+
+            {/* Content Area - Scrollable if content exceeds height */}
+            <div className="overflow-y-auto px-6 md:px-8 pb-8 pt-4 flex-1">
+              <div className="bg-[#F5F5F7] p-6 md:p-8 rounded-3xl">
+                <p
+                  className="text-[#333333] text-sm md:text-base leading-relaxed mb-6"
+                  style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                >
+                  {categoriesData[expandedIndex].description}
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {categoriesData[expandedIndex].skills.map((skill) => (
+                    <div
+                      key={skill}
+                      className="bg-white rounded-xl px-4 py-3 text-xs md:text-sm font-medium text-[#1D1D1F] border border-[#E0E0E0] shadow-2xs hover:shadow-xs transition-all duration-200 flex items-center justify-center text-center h-12"
+                      style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }

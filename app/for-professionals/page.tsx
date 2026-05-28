@@ -150,9 +150,10 @@ export default function ForProfessionals() {
         <div className="w-full max-w-[1440px] px-6">
           
           <div className="mb-12">
-            <FadeText className="text-[40px] font-display font-semibold text-canvas leading-[1.10] tracking-normal">
-              Up and running in 48 hours.
-            </FadeText>
+            <FadeText 
+              text="Up and running in 48 hours."
+              className="text-[40px] font-display font-semibold text-canvas leading-[1.10] tracking-normal" 
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

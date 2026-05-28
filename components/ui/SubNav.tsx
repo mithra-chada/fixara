@@ -1,45 +1,44 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
 
 interface SubNavProps {
   pageName: string;
-  ctaText?: string | null;
+  showCta?: boolean;
+  ctaText?: string;
   ctaHref?: string;
 }
 
 export default function SubNav({ 
   pageName, 
-  ctaText = "Join Waitlist", 
-  ctaHref = "/#waitlist" 
+  showCta = true, 
+  ctaText = 'Join Waitlist', 
+  ctaHref = '/for-professionals' 
 }: SubNavProps) {
-  const pathname = usePathname();
-
-  const handleCtaClick = (e: React.MouseEvent) => {
-    if (ctaHref === "/#waitlist" && pathname === "/") {
-      e.preventDefault();
-      const element = document.getElementById("waitlist");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
   return (
-    <div className="sticky top-[44px] left-0 w-full h-[52px] glass-subnav z-40 select-none">
-      <div className="max-w-[1440px] mx-auto h-full px-6 flex items-center justify-between">
-        {/* Left: Current page name */}
-        <span className="text-[21px] font-display font-semibold text-ink tracking-tight flex items-center h-full">
+    <div
+      className="sticky z-40 w-full glass-subnav"
+      style={{ top: 44, height: 52 }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+        <span
+          style={{
+            fontSize: 21,
+            fontWeight: 600,
+            color: '#1D1D1F',
+            fontFamily: 'Inter, SF Pro Display, system-ui, sans-serif',
+          }}
+        >
           {pageName}
         </span>
-
-        {/* Right: Dynamic CTA Pill */}
-        {ctaText && (
+        {showCta && (
           <Link
             href={ctaHref}
-            onClick={handleCtaClick}
-            className="bg-primary hover:bg-primary-focus active:scale-95 transition-transform duration-100 ease-out text-[14px] text-canvas font-body font-normal px-[18px] py-[6px] rounded-pill"
+            className="inline-flex items-center justify-center text-white font-medium text-xs"
+            style={{
+              background: '#0066CC',
+              borderRadius: 9999,
+              padding: '8px 20px',
+              fontFamily: 'Inter, SF Pro Text, system-ui, sans-serif',
+            }}
           >
             {ctaText}
           </Link>

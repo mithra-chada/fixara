@@ -63,7 +63,7 @@ function ContactContent() {
 
   return (
     <div className="w-full bg-canvas select-none">
-      <SubNav pageName="Contact" ctaText={null} />
+      <SubNav pageName="Contact" showCta={false} />
 
       {/* SECTION 1: HERO (With Glass Container Wrapper) */}
       <section className="w-full bg-[#FBFBFD] py-20 flex justify-center border-b border-hairline">
