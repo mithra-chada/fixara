@@ -219,7 +219,7 @@ export default function CategoriesCarousel({ showHeader = true }: CategoriesCaro
             {/* Close Button */}
             <button
               onClick={() => setExpandedIndex(null)}
-              className="absolute top-4 right-4 z-20 flex items-center justify-center w-8 h-8 rounded-full bg-black text-white hover:bg-black/80 transition-colors focus:outline-hidden cursor-pointer"
+              className="absolute top-4 right-4 z-20 flex items-center justify-center w-8 h-8 rounded-full bg-black text-white hover:bg-black/80 transition-colors focus:outline-none cursor-pointer"
               aria-label="Close modal"
             >
               <X size={16} strokeWidth={2.5} />
@@ -282,7 +282,7 @@ export default function CategoriesCarousel({ showHeader = true }: CategoriesCaro
                   {categoriesData[expandedIndex].skills.map((skill) => (
                     <div
                       key={skill}
-                      className="bg-white rounded-xl px-4 py-3 text-xs md:text-sm font-medium text-[#1D1D1F] border border-[#E0E0E0] shadow-2xs hover:shadow-xs transition-all duration-200 flex items-center justify-center text-center h-12"
+                      className="bg-white rounded-xl px-4 py-2.5 text-xs md:text-sm font-medium text-[#1D1D1F] border border-[#E0E0E0] shadow-2xs hover:shadow-xs transition-all duration-200 flex items-center justify-center text-center min-h-[48px] h-auto whitespace-normal break-words"
                       style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
                     >
                       {skill}
