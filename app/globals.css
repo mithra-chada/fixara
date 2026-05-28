@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-ink font-body antialiased;
+    font-size: 17px;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    background-color: #FBFBFD;
+  }
+
+  /* Focus Ring rule from design system */
+  input:focus, select:focus, textarea:focus, button:focus {
+    outline: 2px solid #0071E3 !important;
+    outline-offset: 2px;
+  }
+
+  /* Prevent outline on non-keyboard focus when using focus-visible */
+  input:focus:not(:focus-visible), select:focus:not(:focus-visible), textarea:focus:not(:focus-visible), button:focus:not(:focus-visible) {
+    outline: none !important;
+  }
+}
+
+@layer utilities {
+  /* Button active scale transition rules */
+  .btn-active-scale {
+    @apply transition-transform duration-100 ease-out active:scale-95;
+  }
+
+  /* FIX 2 — HERO SECTION BACKGROUND WRAPPER */
+  .hero-section {
+    background-color: #F5F5F7;
+    background-image:
+      radial-gradient(ellipse 55% 70% at 8% 50%, rgba(0,102,204,0.09) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 55% at 88% 45%, rgba(210,210,215,0.35) 0%, transparent 60%);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* FIX 3 — HERO GLASS PANEL (RIGHT COLUMN) */
+  .hero-glass-panel {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
+    -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 24px;
+    padding: 40px;
+    position: relative;
+
+    /* Layered shadow for visible depth */
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.04),
+      0 8px 24px rgba(0,0,0,0.08),
+      0 24px 48px rgba(0,0,0,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(0,0,0,0.04);
+  }
+
+  /* Pseudo-element top shimmer */
+  .hero-glass-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255,255,255,0.9) 30%,
+      rgba(255,255,255,0.9) 70%,
+      transparent 100%
+    );
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* FIX 4 — HERO SECOND CARD (3-STEP SUMMARY) */
+  .hero-steps-card {
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.60);
+    border-radius: 18px;
+    padding: 24px;
+    margin-top: 16px;
+
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.06),
+      0 8px 24px rgba(0,0,0,0.05),
+      inset 0 1px 0 rgba(255,255,255,0.90);
+  }
+
+  /* FIX 5 — GLOBAL GLASS UTILITY CLASSES (FULL RESPEC) */
+  
+  /* Glass — Light (on light/parchment backgrounds) */
+  .glass-light {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.04);
+    border: 1px solid rgba(255, 255, 255, 0.70);
+    border-radius: 18px;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.04),
+      0 8px 24px rgba(0,0,0,0.07),
+      0 20px 40px rgba(0,0,0,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(0,0,0,0.03);
+  }
+
+  /* Glass — Dark (on #272729 or #1C1C1E dark tiles) */
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 18px;
+    box-shadow:
+      0 4px 16px rgba(0,0,0,0.30),
+      0 16px 40px rgba(0,0,0,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.20);
+  }
+
+  /* Glass — Blue tint chip */
+  .glass-blue {
+    background: rgba(0, 102, 204, 0.10);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(0, 102, 204, 0.28);
+    border-radius: 9999px;
+    box-shadow:
+      0 1px 4px rgba(0,102,204,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.30);
+  }
+
+  /* Glass — Sub-nav frosted bar */
+  .glass-subnav {
+    background: rgba(245, 245, 247, 0.82);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border-bottom: 1px solid rgba(0,0,0,0.09);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.50);
+  }
+
+  /* Glass — Form container */
+  .glass-form {
+    background: rgba(255, 255, 255, 0.60);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    box-shadow:
+      0 4px 12px rgba(0,0,0,0.05),
+      0 16px 40px rgba(0,0,0,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.95);
+  }
+
+  /* Glass — Input fields */
+  .glass-input {
+    background: rgba(242, 242, 247, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,0,0,0.09);
+    border-radius: 9999px;
+    height: 48px;
+    padding: 0 20px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass-input:focus {
+    border-color: rgba(0,102,204,0.40);
+    box-shadow: 0 0 0 3px rgba(0,102,204,0.10);
+    outline: none;
+  }
+
+  /* FIX 7 — BENEFITS & TRUST CARDS GLASS DEPTH */
+  .card-glass {
+    background: rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.04),
+      0 4px 16px rgba(0,0,0,0.06),
+      0 12px 32px rgba(0,0,0,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-glass:hover {
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.06),
+      0 8px 24px rgba(0,0,0,0.09),
+      0 20px 48px rgba(0,0,0,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.95);
+    transform: translateY(-2px);
+  }
+}
